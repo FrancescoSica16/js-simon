@@ -5,19 +5,13 @@
 // Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
 
 let listaGenerati = [];
-let difficolta ;
+let difficolta = 5 ;
 let numeriScelti = [];
 
 let numeriIndovinati = [];
 
-difficolta = parseInt(prompt("con quanti numeri vuoi giocare?"));
-
 while (listaGenerati.length < difficolta) {
-   let num = getRandomIntInclusive(1 , 10);
-
-    if ( !listaGenerati.includes(num) ) {
-        listaGenerati.push(num);
-    }
+    listaGenerati = randomUnici(difficolta);
 }
 
 console.log(listaGenerati);
@@ -26,7 +20,7 @@ alert(listaGenerati);
 console.log("prima di setTimeout")
 
 setTimeout( function() {
-    
+
     console.log("dentro setTimeout")
 
     let numeriScelti = richiediNumeri(difficolta);
@@ -43,11 +37,22 @@ setTimeout( function() {
 console.log("dopo set timeout")
 
 
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+// function getRandomIntInclusive(min, max) {
+//     min = Math.ceil(min);
+//     max = Math.floor(max);
+//     return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+//   }
+
+function randomUnici(difficoltaTemp) {
+    var arr = [];
+
+  while(arr.length < difficoltaTemp ){
+      var r = Math.floor(Math.random() * 10) + 1;
+      if(arr.indexOf(r) === -1) arr.push(r);
   }
+  return arr;
+}
+
 
 function richiediNumeri(difficoltaTemp) {
 
@@ -55,7 +60,7 @@ function richiediNumeri(difficoltaTemp) {
     console.log("dentro richiedi numeri")
 
     while (array.length < difficoltaTemp) {
-        
+
         let num = parseInt( prompt("inserisci i numeri che ricordi"));
         array.push(num);
     }
@@ -64,13 +69,20 @@ function richiediNumeri(difficoltaTemp) {
 
  // clearTimeout() dove lo uso ?
 
- function getMatch(a, b) {
+ function getMatch(a, b) {  //numeriScelti, listaGenerati
     var matches = [];
 
     for ( var i = 0; i < a.length; i++ ) {
-        for ( var e = 0; e < b.length; e++ ) {
-            if ( a[i] === b[e] ) matches.push( a[i] );
-        }
+
+        // for ( var e = 0; e < b.length; e++ ) {
+        //     console.log(matches , a[i] , b[e])
+
+            if ( b.includes(a[i]) && !matches.includes(a[i]) ){
+
+                matches.push( a[i] );
+            }
+        // }      // modifico funzione per evitare che il programma consideri più volte
+                            // corretto un numero gia inserito dall'utente
     }
     return matches;
 }
